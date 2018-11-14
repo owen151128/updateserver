@@ -11,7 +11,7 @@ import java.text.SimpleDateFormat;
  * 서버 로그 와 관련된 일들을 처리하는 클래스
  */
 public class LogUtil {
-    private static final String TIME_INFO = "yy/MM/dd/hh:mm:ss ";
+    private static final String TIME_INFO = "yy-MM-dd a hh:mm:ss";
     private static final String SPACE = " ";
     private static final String NEW_LINE = "\n";
 
