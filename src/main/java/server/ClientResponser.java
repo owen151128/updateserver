@@ -1,7 +1,7 @@
 package server;
 
+import model.UpdateInfoDTO;
 import model.UpdateInfoTree;
-import model.UpdateInfoTreeWrapper;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -57,14 +57,16 @@ public class ClientResponser {
      *
      * @param local_path String 형태의 UpdateInfoTree를 생성할 대상 경로 지정
      */
-    public void sendUpdateInfoTree(String local_path) {
+    public void sendUpdateInfoTree(String local_path, String client_path) {
 
         try {
-            UpdateInfoTree tree = new UpdateInfoTree();
-            UpdateInfoTreeWrapper.createUpdateInfoTree(local_path.length(), local_path, tree.getChildList());
+            UpdateInfoTree tree = new UpdateInfoTree(local_path);
+            UpdateInfoTree.createUpdateInfoTree(local_path.length(), local_path, tree.getRoot().getChildList());
+
+            UpdateInfoDTO dto = new UpdateInfoDTO(client_path, tree.getRoot());
 
             oos = new ObjectOutputStream(clientSocket.getOutputStream());
-            oos.writeObject(tree);
+            oos.writeObject(dto);
 
         } catch (IOException e) {
 
