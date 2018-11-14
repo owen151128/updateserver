@@ -1,5 +1,6 @@
 package server;
 
+import model.UpdateInfo;
 import model.UpdateInfoDTO;
 import model.UpdateInfoTree;
 
@@ -52,18 +53,17 @@ public class ClientResponser {
     }
 
     /**
-     * UpdateInfoTree 를 생성해서 클라이언트 로 전송하는 메소드 local_path 로 부터 UpdateInfoTree를 생성해
-     * 클라이언트에 전송 한다.
+     * UpdateInfoDTO 를 클라이언트에 전송하는 메소드
+     * UpdateInfo 의 root 노드 와 client_path 가 들어있는 UpdateInfoDTO 가 전송 된다.
      *
-     * @param local_path String 형태의 UpdateInfoTree를 생성할 대상 경로 지정
+     * @param client_path String 형태의 업데이트 파일들이 저장 될 경로이다.
+     * @param root        UpdateInfo 형태의 UpdateInfo Tree 자료구조 root 이다.
      */
-    public void sendUpdateInfoTree(String local_path, String client_path) {
+    public void sendUpdateInfoDTO(String client_path, UpdateInfo root) {
 
         try {
-            UpdateInfoTree tree = new UpdateInfoTree(local_path);
-            UpdateInfoTree.createUpdateInfoTree(local_path.length(), local_path, tree.getRoot().getChildList());
 
-            UpdateInfoDTO dto = new UpdateInfoDTO(client_path, tree.getRoot());
+            UpdateInfoDTO dto = new UpdateInfoDTO(client_path, root);
 
             oos = new ObjectOutputStream(clientSocket.getOutputStream());
             oos.writeObject(dto);
