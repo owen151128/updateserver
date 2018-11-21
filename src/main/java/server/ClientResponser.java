@@ -1,32 +1,36 @@
 package server;
 
-import model.UpdateInfo;
-import model.UpdateInfoDTO;
-import model.UpdateInfoTree;
+import model.*;
+import util.FileResponseUtil;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.net.Socket;
+import java.util.ArrayList;
 
 /**
  * 클라이언트 에서 요청이 들어오면 요청에 대해서 처리하고 응답하는 클래스
  */
 public class ClientResponser {
+
+    private static final String ERR_IO_FAILED = "I/O failed. check stack trace";
+    private static final String ERR_STREAM_CLOSE_FAILED = "Stream close Failed! check stack trace";
+
     private Socket clientSocket;
 
     private BufferedReader br = null;
     private InputStreamReader isr = null;
     private ObjectOutputStream oos = null;
 
+
     /**
-     * 기본 생성자로 클라이언트와 연결된 Socket 을 받아서 클래스를 초기화 한다.
+     * 기본 생성자로 클라이언트 와 연결된 Socket 을 받아서 클래스를 초기화 한다.
      *
      * @param clientSocket Socket 형태의 클라이언트와 연결된 소켓
      */
     public ClientResponser(Socket clientSocket) {
+
         this.clientSocket = clientSocket;
+
     }
 
     /**
@@ -35,8 +39,10 @@ public class ClientResponser {
      * @return String 형태의 클라이언트 Request
      */
     public String getRequest() {
+
         String request = null;
         try {
+
             isr = new InputStreamReader(clientSocket.getInputStream());
             br = new BufferedReader(isr);
 
@@ -45,7 +51,7 @@ public class ClientResponser {
         } catch (IOException e) {
 
             e.printStackTrace();
-            System.out.println("I/O failed. check stack trace");
+            System.out.println(ERR_IO_FAILED);
 
         }
 
@@ -53,7 +59,7 @@ public class ClientResponser {
     }
 
     /**
-     * UpdateInfoDTO 를 클라이언트에 전송하는 메소드
+     * UpdateInfoDTO 를 클라이언트 에 전송하는 메소드
      * UpdateInfo 의 root 노드 와 client_path 가 들어있는 UpdateInfoDTO 가 전송 된다.
      *
      * @param client_path String 형태의 업데이트 파일들이 저장 될 경로이다.
@@ -71,32 +77,114 @@ public class ClientResponser {
         } catch (IOException e) {
 
             e.printStackTrace();
-            System.out.println("I/O failed. check stack trace");
+            System.out.println(ERR_IO_FAILED);
 
         } finally {
 
             try {
 
                 if (clientSocket != null) {
+
                     clientSocket.close();
+
                 }
 
                 if (isr != null) {
+
                     isr.close();
+
                 }
 
                 if (br != null) {
+
                     br.close();
+
                 }
 
                 if (oos != null) {
+
                     oos.close();
+
                 }
 
             } catch (IOException e) {
 
                 e.printStackTrace();
-                System.out.println("Stream close Failed! check stack trace");
+                System.out.println(ERR_STREAM_CLOSE_FAILED);
+
+            }
+
+        }
+    }
+
+    /**
+     * DownloadRequestDTO 를 클라이언트 에게 전송 받아
+     * FileResponseDTO 를 생성 해서 클라이언트 에 전송하는 메소드
+     * DownloadRequestDTO 에 대한 FileResponseDTO 가 전송 된다.
+     * 전송 되는 정보로는 파일 이름, 경로, 해쉬값, 디렉토리 여부, 파일에 대한 바이너리 byte[] 가 있다.
+     */
+    public void getDownloadRequestAndSendFileResponseDTO() {
+
+        ObjectInputStream ois = null;
+
+        try {
+
+            oos = new ObjectOutputStream(clientSocket.getOutputStream());
+            ois = new ObjectInputStream(clientSocket.getInputStream());
+
+            DownloadRequestDTO dto = (DownloadRequestDTO) ois.readObject();
+
+            FileResponseDTO result = new FileResponseDTO();
+
+            if (dto != null) {
+
+                result.setList(new ArrayList<>());
+                FileResponseUtil.downloadRequestDTOToFileResponseDTO(dto, result);
+
+                oos.writeObject(result);
+            }
+
+        } catch (IOException e) {
+
+            e.printStackTrace();
+            System.out.println(ERR_IO_FAILED);
+
+        } catch (ClassNotFoundException e) {
+
+            e.printStackTrace();
+
+        } finally {
+
+            try {
+
+                if (clientSocket != null) {
+
+                    clientSocket.close();
+
+                }
+
+                if (isr != null) {
+
+                    isr.close();
+
+                }
+
+                if (br != null) {
+
+                    br.close();
+
+                }
+
+                if (ois != null) {
+
+                    ois.close();
+
+                }
+
+            } catch (IOException e) {
+
+                e.printStackTrace();
+                System.out.println(ERR_STREAM_CLOSE_FAILED);
 
             }
 
