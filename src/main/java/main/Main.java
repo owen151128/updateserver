@@ -48,7 +48,7 @@ public class Main {
 
                 int tmp = Integer.parseInt(args[0]);
 
-                if (tmp < 0 || tmp > 49152) {
+                if (tmp < 0 || tmp > MainConstants.MAX_PORT) {
 
                     JOptionPane.showMessageDialog(null, MainConstants.ERR_IMPOSSIBLE_PORT);
 
@@ -93,7 +93,7 @@ public class Main {
 
                 while (true) {
 
-                    Thread.sleep(5000);
+                    Thread.sleep(MainConstants.UPDATE_DELAY);
                     manager.update();
 
                 }
@@ -111,7 +111,7 @@ public class Main {
             try {
 
                 ServerSocket stop;
-                stop = new ServerSocket(8888);
+                stop = new ServerSocket(MainConstants.STOP_PORT);
 
                 while (socket == null) {
 
