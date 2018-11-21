@@ -25,19 +25,17 @@ public class UpdateInfoManager {
 
         root = tree.getRoot();
 
-        UpdateInfoTree.createUpdateInfoTree(local_path.length(), local_path, root.getChildList());
+        UpdateInfoTree.createUpdateInfoTree(local_path.length(), local_path, root);
     }
 
     /**
      * UpdateInfoTree 값을 최신으로 업데이트 해주는 메소드
-     *
-     * @return 최신으로 업데이트 된 UpdateInfoTree 에 root 노드
      */
-    public synchronized UpdateInfo update() {
+    public synchronized void update() {
 
-        UpdateInfoTree.createUpdateInfoTree(local_path.length(), local_path, root.getChildList());
+        root.getChildList().clear();
+        UpdateInfoTree.createUpdateInfoTree(local_path.length(), local_path, root);
 
-        return root;
     }
 
     /**
