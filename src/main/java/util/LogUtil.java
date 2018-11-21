@@ -11,9 +11,23 @@ import java.text.SimpleDateFormat;
  * 서버 로그 와 관련된 일들을 처리하는 클래스
  */
 public class LogUtil {
+
     private static final String TIME_INFO = "yy-MM-dd a hh:mm:ss";
     private static final String SPACE = " ";
     private static final String NEW_LINE = "\n";
+
+    private static final String LOG_FILE_PATH = "." + File.separator + "update.log";
+
+    private static final String MSG_CONNECTED = " connected";
+    private static final String MSG_REQUEST = " request : ";
+    private static final String MSG_SEND_DATA = " send data...";
+    private static final String MSG_SEND_COMPLETE = " send complete";
+    private static final String MSG_DISCONNECTED = " disconnected";
+    private static final String MSG_LOG_FILE_CREATED = "log file created : ";
+    private static final String MSG_LOG_FILE_CREATE_FAILED = "log file create failed. check stack trace";
+    private static final String MSG_LOG_FILE_NOT_FOUND = "file not found. check stack trace";
+    private static final String MSG_LOG_WRITE_FAILED = "log write failed. check stack trace";
+    private static final String MSG_LOG_UTIL_CLOSE_FAILED = "log file Stream close failed. check stack trace";
 
     private FileWriter fw;
 
@@ -26,18 +40,24 @@ public class LogUtil {
      */
     public LogUtil() {
 
-        File logFile = new File("." + File.separator + "update.log");
+        File logFile = new File(LOG_FILE_PATH);
 
         try {
+
             if (!logFile.isFile()) {
+
                 if (logFile.createNewFile()) {
-                    System.out.println("log file created : " + logFile.getAbsolutePath());
+
+                    System.out.println(MSG_LOG_FILE_CREATED + logFile.getAbsolutePath());
+
                 }
+
             }
+
         } catch (IOException e) {
 
             e.printStackTrace();
-            System.out.println("log file create failed. check stack trace");
+            System.out.println(MSG_LOG_FILE_CREATE_FAILED);
 
         }
 
@@ -49,7 +69,7 @@ public class LogUtil {
         } catch (IOException e) {
 
             e.printStackTrace();
-            System.out.println("file not found. check stack trace");
+            System.out.println(MSG_LOG_FILE_NOT_FOUND);
 
         }
     }
@@ -60,7 +80,9 @@ public class LogUtil {
      * @return String 형태의 타임 스탬프
      */
     private String getTime() {
+
         return timeStamp.format(System.currentTimeMillis()) + SPACE;
+
     }
 
     /**
@@ -90,7 +112,7 @@ public class LogUtil {
         } catch (IOException e) {
 
             e.printStackTrace();
-            System.out.println("log write failed. check stack trace");
+            System.out.println(MSG_LOG_WRITE_FAILED);
 
         }
     }
@@ -114,7 +136,7 @@ public class LogUtil {
         } catch (IOException e) {
 
             e.printStackTrace();
-            System.out.println("log write failed. check stack trace");
+            System.out.println(MSG_LOG_WRITE_FAILED);
 
         }
     }
@@ -135,31 +157,31 @@ public class LogUtil {
             switch (status) {
 
                 case CONNECT:
-                    System.out.println(result + " connected");
+                    System.out.println(result + MSG_CONNECTED);
 
-                    fw.write(result + " connected" + NEW_LINE);
+                    fw.write(result + MSG_CONNECTED + NEW_LINE);
                     fw.flush();
 
                     break;
 
                 case SEND:
-                    System.out.println(result + " send data...");
+                    System.out.println(result + MSG_SEND_DATA);
 
-                    fw.write(result + " send data..." + NEW_LINE);
+                    fw.write(result + MSG_SEND_DATA + NEW_LINE);
                     fw.flush();
 
                     break;
 
                 case SEND_COMPLETE:
-                    System.out.println(result + " send complete");
-                    fw.write(result + " send complete" + NEW_LINE);
+                    System.out.println(result + MSG_SEND_COMPLETE);
+                    fw.write(result + MSG_SEND_COMPLETE + NEW_LINE);
                     fw.flush();
 
                     break;
 
                 case DISCONNECT:
-                    System.out.println(result + " disconnected");
-                    fw.write(result + " disconnected" + NEW_LINE);
+                    System.out.println(result + MSG_DISCONNECTED);
+                    fw.write(result + MSG_DISCONNECTED + NEW_LINE);
                     fw.flush();
 
             }
@@ -167,7 +189,7 @@ public class LogUtil {
         } catch (IOException e) {
 
             e.printStackTrace();
-            System.out.println("log write failed. check stack trace");
+            System.out.println(MSG_LOG_WRITE_FAILED);
 
         }
     }
@@ -184,14 +206,14 @@ public class LogUtil {
 
         try {
 
-            System.out.println(result + " request : " + request);
-            fw.write(result + " request : " + request + NEW_LINE);
+            System.out.println(result + MSG_REQUEST + request);
+            fw.write(result + MSG_REQUEST + request + NEW_LINE);
             fw.flush();
 
         } catch (IOException e) {
 
             e.printStackTrace();
-            System.out.println("log write failed. check stack trace");
+            System.out.println(MSG_LOG_WRITE_FAILED);
 
         }
     }
@@ -208,7 +230,7 @@ public class LogUtil {
         } catch (IOException e) {
 
             e.printStackTrace();
-            System.out.println("log file Stream close failed. check stack trace");
+            System.out.println(MSG_LOG_UTIL_CLOSE_FAILED);
         }
     }
 }
