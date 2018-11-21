@@ -123,7 +123,7 @@ public class ClientResponser {
      * DownloadRequestDTO 에 대한 FileResponseDTO 가 전송 된다.
      * 전송 되는 정보로는 파일 이름, 경로, 해쉬값, 디렉토리 여부, 파일에 대한 바이너리 byte[] 가 있다.
      */
-    public void getDownloadRequestAndSendFileResponseDTO() {
+    public void getDownloadRequestDTOAndSendFileResponseDTO() {
 
         ObjectInputStream ois = null;
 
