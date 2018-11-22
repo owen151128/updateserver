@@ -2,7 +2,6 @@ package util;
 
 import model.DownloadRequestDTO;
 import model.FileResponse;
-import model.FileResponseDTO;
 import model.UpdateInfo;
 
 import java.io.File;
@@ -21,15 +20,15 @@ public class FileResponseUtil {
     private static SettingFileManager settingFileManager = SettingFileManager.getInstance();
 
     /**
-     * DownloadRequestDTO 를 FileResponseDTO 로 변환 하는 메소드
+     * DownloadRequestDTO 를 FileResponse ArrayList 로 변환 하는 메소드
      *
      * @param downloadRequestDTO DownloadRequestDTO 형태의 클라이언트 에서 요청 온 downloadRequestDTO
-     * @param fileResponseDTO    FileResponseDTO 형태의 클라이언트에 보낼 fileResponseDTO
+     * @return 클라이언트 에 보낼 FileResponse ArrayList
      */
-    public static void downloadRequestDTOToFileResponseDTO(DownloadRequestDTO downloadRequestDTO, FileResponseDTO fileResponseDTO) {
+    public static ArrayList<FileResponse> downloadRequestDTOToFileResponseArray(DownloadRequestDTO downloadRequestDTO) {
 
         ArrayList<UpdateInfo> updateInfos = downloadRequestDTO.getList();
-        ArrayList<FileResponse> fileResponses = fileResponseDTO.getList();
+        ArrayList<FileResponse> fileResponses = new ArrayList<>();
 
         FileResponse response;
 
@@ -79,6 +78,8 @@ public class FileResponseUtil {
             }
 
         }
+
+        return fileResponses;
 
     }
 

@@ -237,27 +237,29 @@ public class ClientResponser {
 
     /**
      * DownloadRequestDTO 를 클라이언트 에게 전송 받아
-     * FileResponseDTO 를 생성 해서 클라이언트 에 전송하는 메소드
-     * DownloadRequestDTO 에 대한 FileResponseDTO 가 전송 된다.
+     * FileResponse 들을 생성 해서 클라이언트 에 전송하는 메소드
+     * DownloadRequestDTO 에 대한 FileResponse 가 전송 된다.
      * 전송 되는 정보로는 파일 이름, 경로, 해쉬값, 디렉토리 여부, 파일에 대한 바이너리 byte[] 가 있다.
      */
-    public void getDownloadRequestDTOAndSendFileResponseDTO() {
+    public void getDownloadRequestDTOAndSendFileResponses() {
 
         try {
 
             oos = new ObjectOutputStream(clientSocket.getOutputStream());
             ois = new ObjectInputStream(clientSocket.getInputStream());
+            ArrayList<FileResponse> responses;
 
             DownloadRequestDTO dto = (DownloadRequestDTO) ois.readObject();
 
-            FileResponseDTO result = new FileResponseDTO();
-
             if (dto != null) {
 
-                result.setList(new ArrayList<>());
-                FileResponseUtil.downloadRequestDTOToFileResponseDTO(dto, result);
+                responses = FileResponseUtil.downloadRequestDTOToFileResponseArray(dto);
 
-                oos.writeObject(result);
+                for (FileResponse r : responses) {
+
+                    oos.writeObject(r);
+
+                }
             }
 
         } catch (IOException e) {

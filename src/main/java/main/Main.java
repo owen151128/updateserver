@@ -195,7 +195,7 @@ public class Main {
 
                             log.writeLog(MainConstants.CLIENT_STATUS.SEND, clientIp);
 
-                            connector.getDownloadRequestDTOAndSendFileResponseDTO();
+                            connector.getDownloadRequestDTOAndSendFileResponses();
 
                             log.writeLog(MainConstants.CLIENT_STATUS.SEND_COMPLETE, clientIp);
 
