@@ -22,10 +22,7 @@ package main;
  */
 public class MainConstants {
 
-    static final int TIME_OUT = 10000;
     static final int MAX_PORT = 49152;
-    static final int UPDATE_DELAY = 5000;
-    static final int STOP_PORT = 8888;
 
     static final String ERR_NO_PORT_NUMBER = "update Server is required port number";
     static final String ERR_WRONG_PORT_NUMBER = "update Server port number is wrong";

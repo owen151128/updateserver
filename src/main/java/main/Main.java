@@ -93,7 +93,7 @@ public class Main {
 
                 while (true) {
 
-                    Thread.sleep(MainConstants.UPDATE_DELAY);
+                    Thread.sleep(settingFileManager.getUpdate_refresh());
                     manager.update();
 
                 }
@@ -111,7 +111,7 @@ public class Main {
             try {
 
                 ServerSocket stop;
-                stop = new ServerSocket(MainConstants.STOP_PORT);
+                stop = new ServerSocket(settingFileManager.getStop_port());
 
                 while (socket == null) {
 
@@ -142,7 +142,7 @@ public class Main {
 
                 client = server.accept();
 
-                client.setSoTimeout(MainConstants.TIME_OUT);
+                client.setSoTimeout(settingFileManager.getTime_out());
                 clientIp = client.getInetAddress().toString().substring(1);
 
             } catch (SocketException e) {

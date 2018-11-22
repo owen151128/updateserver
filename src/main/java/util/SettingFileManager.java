@@ -1,6 +1,7 @@
 package util;
 
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import main.Main;
 
@@ -17,9 +18,12 @@ public class SettingFileManager {
     private static final String SETTING_FILE_PATH = "." + File.separator + "settings";
     private static final String LOCAL_PATH = "local_path";
     private static final String CLIENT_PATH = "client_path";
+    private static final String STOP_PORT = "stop_port";
+    private static final String UPDATE_REFRESH = "update_refresh";
+    private static final String TIME_OUT = "time_out";
 
     private static final String ERR_SETTING_FILE_LOAD_FAILED = "setting file load failed. check setting file";
-    private static final String ERR_SETTING_FILE_OPTION_NOT_FOUND = "no search local_path or client_path! check setting file";
+    private static final String ERR_SETTING_FILE_OPTION_NOT_FOUND = "no search required option! check setting file";
 
     private static final String MSG_SETTING_FILE_NOT_FOUND = "setting file not found";
     private static final String MSG_SETTING_FILE_CREATE_FAILED = "setting file create failed";
@@ -30,6 +34,9 @@ public class SettingFileManager {
     private static SettingFileManager instance;
     private String local_path;
     private String client_path;
+    private int stop_port;
+    private int update_refresh;
+    private int time_out;
 
     /**
      * SettingFileManager 의 인스턴스를 불러오는 메소드 이다.
@@ -89,26 +96,25 @@ public class SettingFileManager {
 
             JsonElement element = parser.parse(result);
 
-            local_path = element.getAsJsonObject().get(LOCAL_PATH).getAsString();
-            client_path = element.getAsJsonObject().get(CLIENT_PATH).getAsString();
+            JsonObject option = element.getAsJsonObject();
 
-            if (local_path == null | client_path == null) {
-
-                System.out.println(ERR_SETTING_FILE_LOAD_FAILED);
-
-            }
+            local_path = option.get(LOCAL_PATH).getAsString();
+            client_path = option.get(CLIENT_PATH).getAsString();
+            stop_port = option.get(STOP_PORT).getAsInt();
+            update_refresh = option.get(UPDATE_REFRESH).getAsInt();
+            time_out = option.get(TIME_OUT).getAsInt();
 
             System.out.println(MSG_SETTING_FILE_LOADED);
+
+        } catch (NullPointerException | IllegalStateException e) {
+
+            System.out.println(ERR_SETTING_FILE_OPTION_NOT_FOUND);
+            Main.stop();
 
         } catch (IOException e) {
 
             e.printStackTrace();
             System.out.println(ERR_SETTING_FILE_LOAD_FAILED);
-
-        } catch (IllegalStateException e) {
-
-            System.out.println(ERR_SETTING_FILE_OPTION_NOT_FOUND);
-            Main.stop();
 
         }
     }
@@ -137,5 +143,38 @@ public class SettingFileManager {
 
         return client_path;
 
+    }
+
+    /**
+     * stop_port 옵션 값을 반환 하는 메소드
+     * stop_port 옵션은 서버 종료 요청을 받을 소켓 포트 를 의미 한다.
+     * 이 옵션이 설정되어 있지 않을 경우 서버가 start 되지 않고 바로 종료 된다.
+     *
+     * @return int 형태의 stop_port 옵션 값
+     */
+    public int getStop_port() {
+        return stop_port;
+    }
+
+    /**
+     * update_refresh 옵션 값을 반환 하는 메소드
+     * update_refresh 옵션은 업데이트 대상 폴더에 대한 확인 주기를 나타 낸다.
+     * 이 옵션이 설정되어 있지 않을 경우 서버가 start 되지 않고 바로 종료 된다.
+     *
+     * @return int 형태의 update_refresh 옵션 값
+     */
+    public int getUpdate_refresh() {
+        return update_refresh;
+    }
+
+    /**
+     * time_out 옵션 값을 반환 하는 메소드
+     * time_out 옵션은 서버 <-> 클라이언트 통신 시 타임 아웃 을 의미 한다.
+     * 이 옵션이 설정되어 있지 않을 경우 서버가 start 되지 않고 바로 종료 된다.
+     *
+     * @return int 형태의 time_out 옵션 값
+     */
+    public int getTime_out() {
+        return time_out;
     }
 }
