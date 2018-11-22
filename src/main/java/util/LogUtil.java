@@ -87,7 +87,7 @@ public class LogUtil {
     }
 
     /**
-     * 로그를 쓰는 함수이다. 대상은 isWriteLog 값에 따라 다르게 쓰기를 진행 한다.
+     * 로그를 쓰는 함수이다. 대상은 isSave 값에 따라 다르게 쓰기를 진행 한다.
      *
      * @param clientIP String 형태의 클라이언트 IP 이다. 로그에 클라이언트 를 구분하기 위해서 사용 된다.
      * @param message  String 형태의 message 로 찍어야할 로그가 있을때 사용자 정의 문자열을 입력 하여 사용 한다.
