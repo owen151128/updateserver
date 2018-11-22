@@ -169,7 +169,7 @@ public class SettingFileManager {
 
     /**
      * time_out 옵션 값을 반환 하는 메소드
-     * time_out 옵션은 서버 <-> 클라이언트 통신 시 타임 아웃 을 의미 한다.
+     * time_out 옵션은 서버 - 클라이언트 통신 시 타임 아웃 을 의미 한다.
      * 이 옵션이 설정되어 있지 않을 경우 서버가 start 되지 않고 바로 종료 된다.
      *
      * @return int 형태의 time_out 옵션 값

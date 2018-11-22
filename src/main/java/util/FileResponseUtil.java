@@ -86,7 +86,7 @@ public class FileResponseUtil {
      * 디렉토리에 대한 요청인 경우 하위 디렉토리 및 파일을 순회하여 FileResponse 들로 변환하는 메소드
      *
      * @param target    디렉토리에 대한 하위 디렉토리 및 파일들이 담긴 File[] list
-     * @param responses 추가할 FileResponse 들을 저장할 ArrayList<FileResponse>
+     * @param responses 추가할 FileResponse 들을 저장할 ArrayList
      */
     private static void directoryRequestToFileResponses(File[] target, ArrayList<FileResponse> responses) {
 
