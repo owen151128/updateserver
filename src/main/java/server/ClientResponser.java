@@ -1,5 +1,6 @@
 package server;
 
+import main.MainConstants;
 import model.*;
 import util.FileResponseUtil;
 
@@ -15,11 +16,14 @@ public class ClientResponser {
     private static final String ERR_IO_FAILED = "I/O failed. check stack trace";
     private static final String ERR_STREAM_CLOSE_FAILED = "Stream close Failed! check stack trace";
 
+    private static final String SERVER_IS_BUSY = "busy";
+
     private Socket clientSocket;
 
     private BufferedReader br = null;
     private InputStreamReader isr = null;
     private ObjectOutputStream oos = null;
+    private ObjectInputStream ois = null;
 
 
     /**
@@ -56,6 +60,120 @@ public class ClientResponser {
         }
 
         return request;
+    }
+
+    public void sendBusy(String requestProtocol) {
+
+        switch (requestProtocol) {
+
+            case MainConstants.RequestProtocol.UPDATE_INFO_TREE:
+
+                try {
+
+                    oos = new ObjectOutputStream(clientSocket.getOutputStream());
+                    oos.writeObject(SERVER_IS_BUSY);
+
+                } catch (IOException e) {
+
+                    e.printStackTrace();
+                    System.out.println(ERR_IO_FAILED);
+
+                } finally {
+
+                    try {
+
+                        if (clientSocket != null) {
+
+                            clientSocket.close();
+
+                        }
+
+                        if (isr != null) {
+
+                            isr.close();
+
+                        }
+
+                        if (br != null) {
+
+                            br.close();
+
+                        }
+
+                        if (oos != null) {
+
+                            oos.close();
+
+                        }
+
+                    } catch (IOException e) {
+
+                        e.printStackTrace();
+                        System.out.println(ERR_STREAM_CLOSE_FAILED);
+
+                    }
+
+                }
+
+                break;
+
+            case MainConstants.RequestProtocol.REQUEST_DOWNLOAD_DTO:
+
+                try {
+
+                    oos = new ObjectOutputStream(clientSocket.getOutputStream());
+                    ois = new ObjectInputStream(clientSocket.getInputStream());
+
+                    ois.readObject();
+
+                    oos.writeObject("busy");
+
+                } catch (IOException e) {
+
+                    e.printStackTrace();
+                    System.out.println(ERR_IO_FAILED);
+
+                } catch (ClassNotFoundException e) {
+
+                    e.printStackTrace();
+
+                } finally {
+
+                    try {
+
+                        if (clientSocket != null) {
+
+                            clientSocket.close();
+
+                        }
+
+                        if (isr != null) {
+
+                            isr.close();
+
+                        }
+
+                        if (br != null) {
+
+                            br.close();
+
+                        }
+
+                        if (ois != null) {
+
+                            ois.close();
+
+                        }
+
+                    } catch (IOException e) {
+
+                        e.printStackTrace();
+                        System.out.println(ERR_STREAM_CLOSE_FAILED);
+
+                    }
+
+                }
+        }
     }
 
     /**
@@ -124,8 +242,6 @@ public class ClientResponser {
      * 전송 되는 정보로는 파일 이름, 경로, 해쉬값, 디렉토리 여부, 파일에 대한 바이너리 byte[] 가 있다.
      */
     public void getDownloadRequestDTOAndSendFileResponseDTO() {
-
-        ObjectInputStream ois = null;
 
         try {
 

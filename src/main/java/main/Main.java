@@ -23,6 +23,8 @@ public class Main {
     private static String clientIp;
     private static LogUtil log;
 
+    private static boolean isBusy = false;
+
     private static UpdateInfoManager manager;
 
     private static Thread updateThread;
@@ -94,8 +96,12 @@ public class Main {
                 while (true) {
 
                     Thread.sleep(settingFileManager.getUpdate_refresh());
+
+                    isBusy = true;
+
                     manager.update();
 
+                    isBusy = false;
                 }
             } catch (InterruptedException e) {
 
@@ -166,26 +172,34 @@ public class Main {
 
                 log.writeLog(clientIp, request);
 
-                switch (request) {
+                if (isBusy) {
 
-                    case MainConstants.RequestProtocol.UPDATE_INFO_TREE:
+                    connector.sendBusy(request);
+                    log.writeLog(clientIp, MainConstants.MSG_SERVER_BUSY, true);
 
-                        log.writeLog(MainConstants.CLIENT_STATUS.SEND, clientIp);
+                } else {
 
-                        connector.sendUpdateInfoDTO(settingFileManager.getClient_path(), manager.getRoot());
+                    switch (request) {
 
-                        log.writeLog(MainConstants.CLIENT_STATUS.SEND_COMPLETE, clientIp);
+                        case MainConstants.RequestProtocol.UPDATE_INFO_TREE:
 
-                        break;
+                            log.writeLog(MainConstants.CLIENT_STATUS.SEND, clientIp);
 
-                    case MainConstants.RequestProtocol.REQUEST_DOWNLOAD_DTO:
+                            connector.sendUpdateInfoDTO(settingFileManager.getClient_path(), manager.getRoot());
 
-                        log.writeLog(MainConstants.CLIENT_STATUS.SEND, clientIp);
+                            log.writeLog(MainConstants.CLIENT_STATUS.SEND_COMPLETE, clientIp);
 
-                        connector.getDownloadRequestDTOAndSendFileResponseDTO();
+                            break;
 
-                        log.writeLog(MainConstants.CLIENT_STATUS.SEND_COMPLETE, clientIp);
+                        case MainConstants.RequestProtocol.REQUEST_DOWNLOAD_DTO:
 
+                            log.writeLog(MainConstants.CLIENT_STATUS.SEND, clientIp);
+
+                            connector.getDownloadRequestDTOAndSendFileResponseDTO();
+
+                            log.writeLog(MainConstants.CLIENT_STATUS.SEND_COMPLETE, clientIp);
+
+                    }
                 }
 
 

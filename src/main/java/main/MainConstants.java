@@ -19,6 +19,7 @@ public class MainConstants {
     static final String MSG_UPDATE_INFO_MANAGER_STOP = "update Info Manager stop";
     static final String MSG_SERVER_LOADED = "Server loaded.";
     static final String MSG_SERVER_STOP = "server stop.";
+    static final String MSG_SERVER_BUSY = " server is busy now";
 
     /**
      * 로그를 찍을때 클라이언트 요청에 대한 상태를 나타내는 열거형
@@ -40,10 +41,10 @@ public class MainConstants {
      * UPDATE_INFO_TREE : UpdateInfoTree 를 요청하는 경우
      * REQUEST_DOWNLOAD_DTO : DownloadRequestDTO 를 서버에서 받고 FileResponseDTO 를 클라이언트에서 받는 요청을 하는 경우
      */
-    class RequestProtocol {
+    public class RequestProtocol {
 
-        static final String UPDATE_INFO_TREE = "updateInfoDTO";
-        static final String REQUEST_DOWNLOAD_DTO = "downloadRequestDTO";
+        public static final String UPDATE_INFO_TREE = "updateInfoDTO";
+        public static final String REQUEST_DOWNLOAD_DTO = "downloadRequestDTO";
 
     }
 }
