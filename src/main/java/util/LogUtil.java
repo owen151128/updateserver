@@ -18,16 +18,17 @@ public class LogUtil {
 
     private static final String LOG_FILE_PATH = "." + File.separator + "update.log";
 
+    private static final String ERR_LOG_FILE_CREATE_FAILED = "log file create failed. check stack trace";
+    private static final String ERR_LOG_FILE_NOT_FOUND = "log file not found. check stack trace";
+    private static final String ERR_LOG_WRITE_FAILED = "log write failed. check stack trace";
+    private static final String ERR_LOG_UTIL_CLOSE_FAILED = "log file Stream close failed. check stack trace";
+
     private static final String MSG_CONNECTED = " connected";
     private static final String MSG_REQUEST = " request : ";
     private static final String MSG_SEND_DATA = " send data...";
     private static final String MSG_SEND_COMPLETE = " send complete";
     private static final String MSG_DISCONNECTED = " disconnected";
     private static final String MSG_LOG_FILE_CREATED = "log file created : ";
-    private static final String MSG_LOG_FILE_CREATE_FAILED = "log file create failed. check stack trace";
-    private static final String MSG_LOG_FILE_NOT_FOUND = "file not found. check stack trace";
-    private static final String MSG_LOG_WRITE_FAILED = "log write failed. check stack trace";
-    private static final String MSG_LOG_UTIL_CLOSE_FAILED = "log file Stream close failed. check stack trace";
 
     private FileWriter fw;
 
@@ -57,7 +58,7 @@ public class LogUtil {
         } catch (IOException e) {
 
             e.printStackTrace();
-            System.out.println(MSG_LOG_FILE_CREATE_FAILED);
+            System.out.println(ERR_LOG_FILE_CREATE_FAILED);
 
         }
 
@@ -69,7 +70,7 @@ public class LogUtil {
         } catch (IOException e) {
 
             e.printStackTrace();
-            System.out.println(MSG_LOG_FILE_NOT_FOUND);
+            System.out.println(ERR_LOG_FILE_NOT_FOUND);
 
         }
     }
@@ -112,7 +113,7 @@ public class LogUtil {
         } catch (IOException e) {
 
             e.printStackTrace();
-            System.out.println(MSG_LOG_WRITE_FAILED);
+            System.out.println(ERR_LOG_WRITE_FAILED);
 
         }
     }
@@ -136,7 +137,7 @@ public class LogUtil {
         } catch (IOException e) {
 
             e.printStackTrace();
-            System.out.println(MSG_LOG_WRITE_FAILED);
+            System.out.println(ERR_LOG_WRITE_FAILED);
 
         }
     }
@@ -189,7 +190,7 @@ public class LogUtil {
         } catch (IOException e) {
 
             e.printStackTrace();
-            System.out.println(MSG_LOG_WRITE_FAILED);
+            System.out.println(ERR_LOG_WRITE_FAILED);
 
         }
     }
@@ -213,7 +214,7 @@ public class LogUtil {
         } catch (IOException e) {
 
             e.printStackTrace();
-            System.out.println(MSG_LOG_WRITE_FAILED);
+            System.out.println(ERR_LOG_WRITE_FAILED);
 
         }
     }
@@ -230,7 +231,7 @@ public class LogUtil {
         } catch (IOException e) {
 
             e.printStackTrace();
-            System.out.println(MSG_LOG_UTIL_CLOSE_FAILED);
+            System.out.println(ERR_LOG_UTIL_CLOSE_FAILED);
         }
     }
 }
