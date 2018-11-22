@@ -13,9 +13,10 @@ public class UpdateInfoManager {
     private UpdateInfo root;
 
     /**
-     * 기본 생성자로 local_path 를 받아 UpdateInfoTree 를 생성, 업데이트 한다.
+     * 기본 생성자로써 root 노드를 설정한다.
+     * root 노드의 경로 즉, 최상위 경로는 client_path 가 된다.
      *
-     * @param local_path String 형태의 로컬에 업데이트 파일들이 존재하는 경로
+     * @param local_path root 노드의 경로가 될 String 형태의 경로
      */
     public UpdateInfoManager(String local_path) {
 
