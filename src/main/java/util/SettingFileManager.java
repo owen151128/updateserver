@@ -18,13 +18,14 @@ public class SettingFileManager {
     private static final String LOCAL_PATH = "local_path";
     private static final String CLIENT_PATH = "client_path";
 
-    private static final String ERR_SETTING_FILE_NOT_FOUND = "setting file not found";
-    private static final String ERR_SETTING_FILE_CREATE_FAILED = "setting file create failed";
     private static final String ERR_SETTING_FILE_LOAD_FAILED = "setting file load failed. check setting file";
-    private static final String ERR_SETTING_FILE_OPTION_NOT_FOUND = "no search local_path and client_path! check setting file";
+    private static final String ERR_SETTING_FILE_OPTION_NOT_FOUND = "no search local_path or client_path! check setting file";
 
+    private static final String MSG_SETTING_FILE_NOT_FOUND = "setting file not found";
+    private static final String MSG_SETTING_FILE_CREATE_FAILED = "setting file create failed";
     private static final String MSG_SETTING_FILE_CREATED = "setting file created";
     private static final String MSG_SETTING_FILE_LOADED = "setting file loaded";
+
 
     private static SettingFileManager instance;
     private String local_path;
@@ -59,7 +60,7 @@ public class SettingFileManager {
 
             if (!settingFile.exists()) {
 
-                System.out.println(ERR_SETTING_FILE_NOT_FOUND);
+                System.out.println(MSG_SETTING_FILE_NOT_FOUND);
 
                 if (settingFile.createNewFile()) {
 
@@ -67,7 +68,7 @@ public class SettingFileManager {
 
                 } else {
 
-                    System.out.println(ERR_SETTING_FILE_CREATE_FAILED);
+                    System.out.println(MSG_SETTING_FILE_CREATE_FAILED);
 
                 }
             }
