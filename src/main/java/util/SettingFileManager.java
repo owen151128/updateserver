@@ -3,6 +3,7 @@ package util;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
 import main.Main;
 
 import java.io.File;
@@ -115,6 +116,11 @@ public class SettingFileManager {
 
             e.printStackTrace();
             System.out.println(ERR_SETTING_FILE_LOAD_FAILED);
+
+        } catch (JsonSyntaxException e) {
+
+            System.out.println(ERR_SETTING_FILE_LOAD_FAILED);
+            Main.stop();
 
         }
     }
