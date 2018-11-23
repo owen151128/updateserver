@@ -39,7 +39,7 @@ public class MainConstants {
     /**
      * 클라이언트 와 서버간의 통신 시 어떤 요청인지를 판단할때 사용되는 클래스
      * UPDATE_INFO_TREE : UpdateInfoTree 를 요청하는 경우
-     * REQUEST_DOWNLOAD_DTO : DownloadRequestDTO 를 서버에서 받고 FileResponseDTO 를 클라이언트에서 받는 요청을 하는 경우
+     * REQUEST_DOWNLOAD_DTO : DownloadRequestDTO 를 서버에서 받고 FileResponses 를 클라이언트에서 받는 요청을 하는 경우
      */
     public class RequestProtocol {
 
