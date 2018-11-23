@@ -7,6 +7,7 @@ import util.UpdateInfoManager;
 
 import javax.swing.JOptionPane;
 import java.io.IOException;
+import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
@@ -116,8 +117,18 @@ public class Main {
 
             try {
 
-                ServerSocket stop;
-                stop = new ServerSocket(settingFileManager.getStop_port());
+                ServerSocket stop = null;
+
+                try {
+
+                    stop = new ServerSocket(settingFileManager.getStop_port());
+
+                } catch (BindException e) {
+
+                    e.printStackTrace();
+                    System.exit(0);
+
+                }
 
                 while (socket == null) {
 
