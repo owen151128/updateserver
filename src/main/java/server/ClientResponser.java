@@ -126,7 +126,7 @@ public class ClientResponser {
 
                     ois.readObject();
 
-                    oos.writeObject("busy");
+                    oos.writeObject(SERVER_IS_BUSY);
 
                 } catch (IOException e) {
 
