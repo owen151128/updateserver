@@ -13,6 +13,7 @@ public class UpdateInfo implements Serializable {
     private String fileName;
     private String fileHash;
     private boolean isDirectory;
+    private boolean isBig;
     private ArrayList<UpdateInfo> childList;
 
     /**
@@ -95,6 +96,24 @@ public class UpdateInfo implements Serializable {
     }
 
     /**
+     * 해당 클래스가 담고있는 정보에 대해 파일 크기가 10MB 미만일 경우 를 반환하는 메소드
+     *
+     * @return boolean 형태의 값 10MB 초과 일 경우 true, 미만일 경우 flase
+     */
+    public boolean isBig() {
+        return isBig;
+    }
+
+    /**
+     * 해당 클래스가 담고있는 정보에 대해 파일 크기 가 10MB 미만 여부를 설정하는 메소드
+     *
+     * @param big 10MB 초과 일 경우 true, 미만 일 경우 false 를 설정 한다.
+     */
+    public void setBig(boolean big) {
+        isBig = big;
+    }
+
+    /**
      * 해당 클래스의 자식 리스트를 얻는 메소드
      *
      * @return ArrayList 형태의 자식 리스트
@@ -128,6 +147,7 @@ public class UpdateInfo implements Serializable {
             return this.getFileHash().equals(o.getFileHash())
                     && this.getFilePath().equals(o.getFilePath())
                     && this.isDirectory == o.isDirectory
+                    && this.isBig == o.isBig
                     && this.getFileName().equals(o.getFileName());
 
         } else {
