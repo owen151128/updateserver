@@ -151,6 +151,12 @@ public class Main {
 
         updateThread.start();
 
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         log.writeLog(MainConstants.MSG_SERVER_LOADED);
 
         while (true) {
