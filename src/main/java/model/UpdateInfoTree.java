@@ -1,8 +1,14 @@
 package model;
 
+import main.MainConstants;
+import me.tongfei.progressbar.ProgressBar;
 import util.SHA256HashGenerator;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.RandomAccessFile;
+import java.nio.ByteBuffer;
+import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 
 /**
@@ -84,7 +90,60 @@ public class UpdateInfoTree {
                     newNode.setFilePath(f.getAbsolutePath().substring(prefixSize));
                     newNode.setFileName(f.getName());
                     newNode.setDirectory(false);
-                    newNode.setFileHash(SHA256HashGenerator.getHash(f.getAbsoluteFile().toString()));
+
+                    if (f.length() > MainConstants.BIG_FILE) {
+
+                        StringBuilder result = new StringBuilder();
+                        RandomAccessFile randomAccessFile;
+                        FileChannel targetChannel;
+                        ByteBuffer byteBuffer;
+                        byte[] binaryData;
+
+                        try {
+
+                            randomAccessFile = new RandomAccessFile(f.getAbsolutePath(), "r");
+                            targetChannel = randomAccessFile.getChannel();
+                            byteBuffer = ByteBuffer.allocateDirect(MainConstants.BIG_FILE);
+                            binaryData = new byte[MainConstants.BIG_FILE];
+
+                            long size = f.length() / MainConstants.BIG_FILE + (f.length() % MainConstants.BIG_FILE == 0 ? 0 : 1);
+
+                            ProgressBar progressBar = new ProgressBar("load Big File", size);
+
+                            while (targetChannel.read(byteBuffer) > 0) {
+
+                                byteBuffer.flip();
+
+                                for (int i = 0; i < byteBuffer.limit(); i++) {
+
+                                    binaryData[i] = byteBuffer.get();
+
+                                }
+
+                                progressBar.step();
+
+                                result.append(SHA256HashGenerator.getHash(binaryData));
+
+                                byteBuffer.clear();
+
+                            }
+
+                            progressBar.close();
+
+                            newNode.setFileHash(SHA256HashGenerator.getHash(result.toString().getBytes()));
+
+                        } catch (IOException e) {
+
+                            e.printStackTrace();
+
+                        }
+
+
+                    } else {
+
+                        newNode.setFileHash(SHA256HashGenerator.getHash(f.getAbsoluteFile().toString()));
+
+                    }
 
                     childList.add(newNode);
                 }
