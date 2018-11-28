@@ -56,4 +56,40 @@ public class SHA256HashGenerator {
 
         return result.toString();
     }
+
+    /**
+     * binaryData 에 대한 SHA256 해시를 반환하는 메소드
+     *
+     * @param binaryData 파일에 대한 바이너리 값
+     * @return 파일 데이터에 대한 SHA256 해시화 값
+     */
+    public static String getHash(byte[] binaryData) {
+        MessageDigest sha;
+        StringBuilder result;
+        byte[] data;
+
+        try {
+
+            sha = MessageDigest.getInstance(SHA_256_ALGORITHM);
+            sha.update(binaryData);
+
+            data = sha.digest();
+
+            result = new StringBuilder();
+
+            for (byte b : data) {
+                result.append(Integer.toString((b & 0xff) + 0x100, 16).substring(1));   //  16진수를 얻는 과정
+            }
+
+        } catch (NoSuchAlgorithmException e) {
+
+            e.printStackTrace();
+            System.out.println(ERR_MSG_NOT_FOUND_ALGORITHM);
+
+            return "";
+
+        }
+
+        return result.toString();
+    }
 }
