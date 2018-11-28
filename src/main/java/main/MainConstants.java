@@ -7,6 +7,8 @@ public class MainConstants {
 
     static final int MAX_PORT = 49152;
 
+    public static final int BIG_FILE = 10485760;
+
     static final String ERR_NO_PORT_NUMBER = "update Server is required port number";
     static final String ERR_WRONG_PORT_NUMBER = "update Server port number is wrong";
     static final String ERR_IMPOSSIBLE_PORT = "update Server port number must set 1 ~ 49151";
