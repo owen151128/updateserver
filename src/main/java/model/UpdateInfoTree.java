@@ -108,7 +108,7 @@ public class UpdateInfoTree {
 
                             long size = f.length() / MainConstants.BIG_FILE + (f.length() % MainConstants.BIG_FILE == 0 ? 0 : 1);
 
-                            ProgressBar progressBar = new ProgressBar("load Big File", size);
+                            ProgressBar progressBar = new ProgressBar(MainConstants.MSG_BIG_FILE, size);
 
                             while (targetChannel.read(byteBuffer) > 0) {
 
@@ -130,6 +130,7 @@ public class UpdateInfoTree {
 
                             progressBar.close();
 
+                            newNode.setBig(true);
                             newNode.setFileHash(SHA256HashGenerator.getHash(result.toString().getBytes()));
 
                         } catch (IOException e) {
