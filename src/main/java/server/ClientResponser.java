@@ -236,6 +236,29 @@ public class ClientResponser {
     }
 
     /**
+     * FileResponse 를 클라이언트로 전송하는 메소드
+     * 내부적으로 getDownloadRequestDTOAndSendFileResponses 가 호출해서 사용 한다.
+     *
+     * @param response FileResponse 형태의 보낼 response
+     * @throws IOException 클라이언트 와의 통신 중 문제가 발생시 생기는 Exception
+     */
+    public void sendFileResponse(FileResponse response) throws IOException {
+
+        oos.writeObject(response);
+        oos.reset();
+
+        String request = br.readLine();
+
+        while (request.equals(MainConstants.RequestProtocol.REQUEST_RETRY)) {
+
+            System.out.println(response.getFileName() + " retry send...");
+            oos.writeObject(response);
+            request = br.readLine();
+
+        }
+    }
+
+    /**
      * DownloadRequestDTO 를 클라이언트 에게 전송 받아
      * FileResponse 들을 생성 해서 클라이언트 에 전송하는 메소드
      * DownloadRequestDTO 에 대한 FileResponse 가 전송 된다.
@@ -247,19 +270,13 @@ public class ClientResponser {
 
             oos = new ObjectOutputStream(clientSocket.getOutputStream());
             ois = new ObjectInputStream(clientSocket.getInputStream());
-            ArrayList<FileResponse> responses;
 
             DownloadRequestDTO dto = (DownloadRequestDTO) ois.readObject();
 
             if (dto != null) {
 
-                responses = FileResponseUtil.downloadRequestDTOToFileResponseArray(dto);
+                FileResponseUtil.downloadRequestDTOToFileResponse(this, dto);
 
-                for (FileResponse r : responses) {
-
-                    oos.writeObject(r);
-
-                }
             }
 
         } catch (IOException e) {
