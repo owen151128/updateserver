@@ -13,6 +13,9 @@ public class FileResponse implements Serializable {
     private String fileName;
     private String fileHash;
     private boolean isDirectory;
+    private boolean isBig;
+    private int index;
+    private int size;
 
     private byte[] data;
 
@@ -86,6 +89,61 @@ public class FileResponse implements Serializable {
      */
     public void setDirectory(boolean directory) {
         isDirectory = directory;
+    }
+
+    /**
+     * 해당 클래스가 담고있는 정보에 대해 파일 크기가 10MB 미만일 경우 를 반환하는 메소드
+     *
+     * @return boolean 형태의 값 10MB 초과 일 경우 true, 미만일 경우 flase
+     */
+    public boolean isBig() {
+        return isBig;
+    }
+
+    /**
+     * 해당 클래스가 담고있는 정보에 대해 파일 크기 가 10MB 미만 여부를 설정하는 메소드
+     *
+     * @param big 10MB 초과 일 경우 true, 미만 일 경우 false 를 설정 한다.
+     */
+    public void setBig(boolean big) {
+        isBig = big;
+    }
+
+    /**
+     * isBig 이 true 일 경우 해당 클래스가 담고있는 파일이 split 된 파일의 몇번째 인지를 반환하는 메소드
+     * isBig 이 false 일 경우 해당 값을 사용하지 않으며 0 이 들어 간다.
+     *
+     * @return int 형태의 값 으로 해당 파일이 split 된 파일의 몇번째 인지를 반환
+     */
+    public int getIndex() {
+        return index;
+    }
+
+    /**
+     * 해당 클래스가 담고있는 파일이 split 되 있는 경우 파일의 몇번째 인지를 설정하는 메소드
+     *
+     * @param index int 형태의 값 으로 해당 파일이 split 된 파일의 몇번째 인지를 설정
+     */
+    public void setIndex(int index) {
+        this.index = index;
+    }
+
+    /**
+     * 해당 클래스가 담고있는 파일이 split 되 있는 경우 split 된 파일의 총 갯수를 반환 한다.
+     *
+     * @return int 형태의 split 된 파일의 총 갯수 반환
+     */
+    public int getSize() {
+        return size;
+    }
+
+    /**
+     * 해당 클래스가 담고있는 파일이 split 되 있는 경우 파일의 총 갯수를 설정하는 메소드
+     *
+     * @param size split 된 파일의 총 갯수
+     */
+    public void setSize(int size) {
+        this.size = size;
     }
 
     /**
