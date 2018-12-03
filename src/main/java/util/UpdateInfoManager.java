@@ -26,7 +26,6 @@ public class UpdateInfoManager {
 
         root = tree.getRoot();
 
-        UpdateInfoTree.createUpdateInfoTree(local_path.length(), local_path, root);
     }
 
     /**
