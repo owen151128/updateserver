@@ -9,6 +9,8 @@ public class MainConstants {
 
     public static final int BIG_FILE = 10485760;
 
+    public static final String MSG_BIG_FILE = "Hashing...";
+
     static final String ERR_NO_PORT_NUMBER = "update Server is required port number";
     static final String ERR_WRONG_PORT_NUMBER = "update Server port number is wrong";
     static final String ERR_IMPOSSIBLE_PORT = "update Server port number must set 1 ~ 49151";
@@ -47,6 +49,9 @@ public class MainConstants {
 
         public static final String UPDATE_INFO_TREE = "updateInfoDTO";
         public static final String REQUEST_DOWNLOAD_DTO = "downloadRequestDTO";
+        public static final String REQUEST_OK = "ok";
+        public static final String REQUEST_RETRY = "retry";
 
     }
+
 }
