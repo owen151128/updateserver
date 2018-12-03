@@ -96,13 +96,14 @@ public class Main {
 
                 while (true) {
 
-                    Thread.sleep(settingFileManager.getUpdate_refresh());
-
                     isBusy = true;
 
                     manager.update();
 
                     isBusy = false;
+
+                    Thread.sleep(settingFileManager.getUpdate_refresh());
+
                 }
             } catch (InterruptedException e) {
 
@@ -147,10 +148,6 @@ public class Main {
 
         });
 
-        stopThread.start();
-
-        updateThread.start();
-
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
@@ -158,6 +155,10 @@ public class Main {
         }
 
         log.writeLog(MainConstants.MSG_SERVER_LOADED);
+
+        stopThread.start();
+
+        updateThread.start();
 
         while (true) {
 
